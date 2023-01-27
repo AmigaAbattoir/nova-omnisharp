@@ -1,0 +1,27 @@
+{
+    "identifier": "com.abattoirsoftware.csharp",
+    "name": "C#",
+    "organization": "Abattoir Software",
+    "description": "Uses Omnisharp Roslyn LSP for C# in Nova",
+    "version": "0.1",
+    "categories": [
+        "languages",
+        "issues"
+    ],
+
+    "main": "main.js",
+
+    "entitlements": {
+        "process": true,
+        "filesystem": "readonly"
+    },
+
+    "config": [
+        {
+            "key": "example.language-server-path",
+            "title": "Language Server Path",
+            "type": "path",
+            "placeholder": "/usr/local/bin/example"
+        }
+    ]
+}
