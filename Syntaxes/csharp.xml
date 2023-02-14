@@ -300,10 +300,10 @@
 		</collection>
 		<collection name="block">
 			<scope>
+				<symbol type="block">
+					<context behavior="subtree"/>
+				</symbol>
 				<starts-with>
-					<symbol type="block">
-						<context behavior="subtree"/>
-					</symbol>
 					<expression>\{</expression>
 					<capture number="0" name="source.cs.punctuation.curlybrace.open.cs" />
 				</starts-with>
@@ -521,10 +521,8 @@
 		</collection>
 		<collection name="class-declaration">
 			<scope>
-				<symbol type="class">
-					<display-name>
-						<component selector="source.cs.identifier.type.class.cs" />
-					</display-name>
+				<symbol type="class" name-selector="source.cs.identifier.type.class.cs">
+					<context behavior="subtree" fold-type="class"/>
 				</symbol>
 				<starts-with>
 					<expression>(?=\bclass\b)</expression>
@@ -749,13 +747,6 @@
 		</collection>
 		<collection name="declaration-expression-local">
 			<scope>
-				<symbol type="variable" scope="local">
-					<display-name>
-						<component variable="name"/>
-						<component selector="source.cs.variable.local.cs" __prepend="@@@"/>
-					</display-name>
-				</symbol>
-
 				<expression>(?x) # e.g. int x OR var x
 (?:
 	\b(var)\b|
@@ -1215,11 +1206,7 @@
 		</collection>
 		<collection name="field-declaration">
 			<scope>
-				<symbol type="variable">
-					<display-name>
-						<component selector="source.cs.variable.field.cs" prepend=" "/>
-					</display-name>
-				</symbol>
+				<symbol type="variable" name-selector="source.cs.variable.field.cs"/>
 				<starts-with>
 					<expression>(?x)
 (?&lt;type_name&gt;
@@ -1876,6 +1863,7 @@
 		</collection>
 		<collection name="local-constant-declaration">
 			<scope>
+				<symbol type="constant" name-selector="source.cs.variable.local.cs"/>
 				<starts-with>
 					<expression>(?x)
 (?&lt;const_keyword&gt;\b(?:const)\b)\s*
@@ -1912,12 +1900,7 @@
 				</ends-with>
 				<subscopes>
 					<scope name="source.cs.variable.local.cs">
-						<symbol type="const" scope="local">
-							<display-name>
-								<component variable="name"/>
-								<component selector="source.cs.variable.local.cs" _prepend="@2@"/>
-							</display-name>
-						</symbol>
+						<symbol type="const" scope="local"/>
 						<expression>@?[_[:alpha:]][_[:alnum:]]*</expression>
 					</scope>
 					<include syntax="self" collection="punctuation-comma" />
@@ -1956,11 +1939,7 @@
 		</collection>
 		<collection name="local-variable-declaration">
 			<scope>
-				<symbol type="variable">
-					<display-name>
-						<component selector="source.cs.variable.local.cs" _prepend="@5@ "/>
-					</display-name>
-				</symbol>
+				<symbol type="variable" name-selector="source.cs.variable.local.cs"/>
 				<starts-with>
 					<expression>(?x)
 (?:
@@ -2005,12 +1984,6 @@
 				</ends-with>
 				<subscopes>
 					<scope name="source.cs.variable.local.cs">
-						<symbol type="variable" scope="local">
-							<display-name>
-								<component variable="name" />
-								<component selector="source.cs.variable.local.cs" prepend="@3@" />
-							</display-name>
-						</symbol>
 						<expression>@?[_[:alpha:]][_[:alnum:]]*</expression>
 					</scope>
 					<include syntax="self" collection="punctuation-comma" />
@@ -2082,11 +2055,7 @@
 		</collection>
 		<collection name="method-declaration">
 			<scope>
-				<symbol type="method" lookup="index">
-					<filter match-start="\b(void)\s+"/>
-					<display-name>
-						<component selector="source.cs.function.cs" prepend="" />
-					</display-name>
+				<symbol type="method" name-selector="source.cs.function.cs">
 					<context behavior="subtree" foldable="true" fold-type="function"/>
 				</symbol>
 				<starts-with>
@@ -2365,11 +2334,7 @@
 		</collection>
 		<collection name="parameter">
 			<scope>
-				<symbol type="argument">
-					<display-name>
-						<component selector="source.cs.variable.parameter.cs"/>
-					</display-name>
-				</symbol>
+				<symbol type="argument" name-selector="source.cs.variable.parameter.cs"/>
 				<expression>(?x)
 (?:(?:\b(ref|params|out|in|this)\b)\s+)?
 (?&lt;type_name&gt;
@@ -2659,10 +2624,8 @@ Capture number is greater than the number of captures in the regex: 2, source.cs
 		</collection>
 		<collection name="property-declaration">
 			<scope>
-				<symbol type="property">
-					<display-name>
-						<component selector="source.cs.variable.property.cs"/>
-					</display-name>
+				<symbol type="property" name-selector="source.cs.variable.property.cs">
+					<context behavior="subtree" fold-type="property"/>
 				</symbol>
 				<starts-with>
 					<expression>(?x)
