@@ -1,14 +1,14 @@
 **C Sharp** provides LSP stuff for C# project
 
-It uses [Omnisharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) (using V1.39.4) to try an do this LSP magic.
+It uses [Omnisharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) (using the latest [release](https://github.com/OmniSharp/omnisharp-roslyn/releases/) at the time of V1.39.4) to try an do this LSP magic.
 
 I am primarily focused on using it for Unity projects, so for right now it's using some options that will only work for Unity project and some basic .NET project will not work.
 
-Syntaxes were converted with [Nova Mate](https://github.com/gredman/novamate) from the grammar `csharp` in [Microsoft's VSCode C# Extension](https://github.com/microsoft/vscode/blob/main/extensions/csharp/syntaxes/csharp.tmLanguage.json)
+Syntaxes were converted with [Nova Mate](https://github.com/gredman/novamate) from the grammar `csharp` in [Microsoft's VSCode C# Extension](https://github.com/microsoft/vscode/blob/main/extensions/csharp/syntaxes/csharp.tmLanguage.json) and I basically added some `<symbol>` to get the outlining features to work.`
 
 ## Requirements
 
-None that I can think of right now.
+You may need [Mono](https://www.mono-project.com/download/stable/) installed.
 
 ## Usage
 
@@ -147,3 +147,12 @@ Default [RoslynExtensionOptions](https://github.com/OmniSharp/omnisharp-roslyn/b
 	}
 }
 ```
+
+## Unity
+
+To setup Unity to use Nova as the editor, go into the *Settings -> External Tools*
+
+**External Script Editor:** */Applications/Nova.app/Contents/SharedSupport/nova*
+**External Script Editor Args:** *open "$(File)" -l "$(Line)":"$(Column)"*
+
+However, opening up scripts from the Project or from Hierarchy doesn't work, so your safer to do: *open "$(File)"* until a bash script or soemthing is made to handle how to launch it.
