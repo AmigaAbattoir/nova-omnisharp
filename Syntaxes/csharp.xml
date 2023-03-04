@@ -958,6 +958,9 @@
 		</collection>
 		<collection name="enum-declaration">
 			<scope>
+				<symbol type="enum" name-selector="source.cs.identifier.type.enum.cs">
+					<context behaviour="subtree" foldable="true" fold-type="enum"/>
+				</symbol>
 				<starts-with>
 					<expression>(?=\benum\b)</expression>
 				</starts-with>
@@ -1007,6 +1010,9 @@
 						</ends-with>
 						<subscopes>
 							<scope>
+								<symbol type="enum-member">
+									<context behavior="subtree"/>
+								</symbol>
 								<starts-with>
 									<expression>@?[_[:alpha:]][_[:alnum:]]*</expression>
 									<capture number="0" name="source.cs.variable.enum-member.cs" />

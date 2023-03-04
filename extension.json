@@ -3,10 +3,14 @@
     "name": "C#",
     "organization": "Abattoir Software",
     "description": "Uses Omnisharp Roslyn LSP for C# in Nova",
-    "version": "0.1",
+    "version": "0.2",
     "categories": [
         "languages",
         "issues"
+    ],
+
+    "activationEvents": [
+        "onWorkspaceContains:*.csproj"
     ],
 
     "main": "main.js",
@@ -18,10 +22,256 @@
 
     "config": [
         {
-            "key": "example.language-server-path",
-            "title": "Language Server Path",
-            "type": "path",
-            "placeholder": "/usr/local/bin/example"
-        }
-    ]
+            "title": "Omnisharp",
+            "type": "section",
+            "children": [
+                {
+                    "key": "omnisharp.monoPath",
+                    "title": "Mono Path",
+                    "type": "path",
+                    "placeholder": "/Library/Frameworks/Mono.framework/Versions/Current",
+                    "description": "Specifies the path to a mono installation to use when 'useModernNet' is set to false, instead of the default system one. Example: '/Library/Frameworks/Mono.framework/Versions/Current'"
+                },
+                {
+                    "key": "omnisharp.analyzeOpenDocumentsOnly",
+                    "title": "Analyze Open Documents Only",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Only run analyzers against open files when 'enableRoslynAnalyzers is true"
+                },
+                {
+                    "key": "omnisharp.autoStart",
+                    "title": "Auto Start",
+                    "type": "bool",
+                    "default": true,
+                    "description": "Specifies whether the OmniSharp server will be automatically started or not. If false, OmniSharp can be started with the \"Restart OmniSharp\" command"
+                },
+                {
+                    "key": "omnisharp.defaultLaunchSolution",
+                    "title": "Default Launch Solution",
+                    "type": "string",
+                    "placeholder": "",
+                    "description": "The name of the default solution used at start up if the repo has multiple solutions. e.g.'MyAwesomeSolution.sin' Default value is 'null' which will cause the first in alphabetical order to be chosen."
+                },
+                {
+                    "key": "omnisharp.disableMSBuildDiagnosticWarning",
+                    "title": "Disable MSBuild Diagnostic Warning",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Specifies whether notifications should be shown if OmniSharp encounters warnings or errors loading a project. Note that these warnings errors are always emitted to the Omnisharp log"
+                },
+                {
+                    "key": "omnisharp.dotNetCliPaths",
+                    "title": "Dot Net Cli Paths",
+                    "type": "pathArray",
+                    "description": "Paths to a local download of the .NET CLI to use for running any user code."
+                },
+                {
+                    "key": "omnisharp.dotnetPath",
+                    "title": "Dotnet Path",
+                    "type": "path",
+                    "placeholder": "",
+                    "description": "Specified the path to a dotnet installation to use when \"useModernNet\" is set to true, instead of the default system one. This only influences the dotnet installation to use for hosting Omnisharp itself. Example: \"home/username/mycustomdotnetdirectory\".",
+                },
+                {
+                    "key": "omnisharp.enableAsyncCompletion",
+                    "title": "Enable Async Completion",
+                    "type": "bool",
+                    "default": false,
+                    "description": "(EXPERIMENTAL) Enables support for resolving completion edits asynchronously. This can speed up time to show the completion list, particularly override and partial method completion lists, at the cost of slight delays after inserting a completion item. Most completion items will have no noticeable impact with this feature, but typing immediately after inserting an override or partial method completion, before the insert is completed, can have unpredictable results."
+                },
+                {
+                    "key": "omnisharp.enableDecompilationSupport",
+                    "title": "Enable Decompilation Support",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Enables support for decompiling external references instead of viewing metadata."
+                },
+                {
+                    "key": "omnisharp.enableImportCompletion",
+                    "title": "Enable Editor Config Support",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Enables support for reading code style, naming convention and analvzer settings from editorconfig"
+                },
+                {
+                    "key": "omnisharp.enableImportCompletion",
+                    "title": "Enable Import Completion",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Enables support for showing unimported types and unimported extension methods in completion lists. When committed, the appropriate using directive will be added at the top of the current file. This option can have a negative impact on initial completion responsiveness particularly for the first few completion sessions after opening a solution"
+                },
+                {
+                    "key": "omnisharp.enableMsBuildLoadProjectsOnDemand",
+                    "title": "Enable Ms Build Load Projects On Demand",
+                    "type": "bool",
+                    "default": false,
+                    "description": "If true, MSBuild project system will only load projects for files that were opened in the editor. This setting is useful for big C# codebases and allows for faster initialization of code navigation features only for projects that are relevant to code that is being edited. With this setting enabled OmniSharp may load fewer projects and may thus display incomplete reference lists for symbols."
+                },
+                {
+                    "key": "omnisharp.enableRoslynAnalyzers",
+                    "title": "Enable Rosin Analvzers",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Enables support for roslyn analyzers, code fixes and rulesets."
+                },
+				{
+					"key": "omnisharp.loggingLevel",
+					"title": "Logging Level",
+					"type": "enum",
+					"values": [
+						["trace", "Trace"],
+						["debug", "Debug"],
+						["information", "Information (Default)"],
+						["warning", "Warning"],
+						["error", "Error"],
+						["critical", "Critical"],
+					],
+					"default": "information",
+                    "description": "Specifies the level of logging output from the OmniSharp server."
+				},
+                {
+                    "key": "omnisharp.maxFindSymbolsItems",
+                    "title": "Max Find Symbols Items",
+                    "type": "number",
+                    "default": 1000,
+                    "description": "The maximum number of items that 'Go to Symbol in Workspace' operation can show. The limit is applied only when a positive number is specified here."
+                },
+                {
+                    "key": "omnisharp.maxProjectResults",
+                    "title": "Max Project Results",
+                    "type": "number",
+                    "default": 250,
+                    "description": "The maximum number of projects to be shown in the 'Select Project' dropdown (maximum 250)."
+                },
+                {
+                    "key": "omnisharp.minFindSymbolsFilterLength",
+                    "title": "Min Find Symbols Filter Length",
+                    "type": "number",
+                    "default": 0,
+                    "description": "The minimum number of characters to enter before 'Go to Symbol in Workspace' operation shows any results."
+                },
+                {
+                    "key": "omnisharp.monoPath",
+                    "title": "Mono Path",
+                    "type": "path",
+                    "placeholder": "",
+                    "description": "Specifies the path to a mono installation to use when \"useModernNet\" is set to false, instead of the default system one. Example: \"/Library/Frameworks/Mono.framework/Versions/Current\""
+                },
+                {
+                    "key": "omnisharp.organizeImportsOnFormat",
+                    "title": "Organize Imports On Format",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Specifies whether 'using' directives should be grouped and sorted during document formatting."
+                },
+                {
+                    "key": "omnisharp.path",
+                    "title": "Path",
+                    "type": "path",
+                    "placeholder": "",
+                    "description": "Specifies the path to OmniSharp. When left empty the OmniSharp version pinned to the C# Extension is used. This can be the absolute path to an OmniSharp executable, a specific version number, or \"latest\". If a version number or \"latest\" is specified, the appropriate version of OmniSharp will be downloaded on your behalf. Setting \"latest\" is an opt-in into latest beta releases of OmniSharp."
+                },
+                {
+                    "key": "omnisharp.projectFilesExcludePattern",
+                    "title": "Proiect Files Exclude Pattern",
+                    "type": "string",
+                    "placeholder": "**/node_modules/**,**/.git/**,**/bower_components/**",
+                    "description": "The exclude pattern used by OmniSharp to find all project files."
+                },
+                {
+                    "key": "omnisharp.projectLoadTimeout",
+                    "title": "Project Load Timeout",
+                    "type": "number",
+                    "default": 60,
+                    "description": "The time NOva will wait for the OmniSharp server to start. Time is expressed in seconds."
+                },
+                {
+                    "key": "omnisharp.sdkIncludePrereleases",
+                    "title": "Sdk Include Prereleases",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Specifies whether to include preview versions of the .NET SDK when determining which version to use for project loading. Applies when \"useModernNet\" is set to true."
+                },
+                {
+                    "key": "omnisharp.sdkPath",
+                    "title": "Sdk Path",
+                    "type": "path",
+                    "placeholder": "",
+                    "description": "Specifies the path to a NET SDK installation to use for project loading instead of the highest version installed. Applies when \"useModernNet\" is set to true. Example: /home/username/dotnet/sks/6.0.300."
+                },
+                {
+                    "key": "omnisharp.sdkVersion",
+                    "title": "Sdk Version",
+                    "type": "string",
+                    "placeholder": "",
+                    "description": "Specifies the version of the NET SDK to use for project loading instead of the highest version installed. Applies when \"useModernNet\" is set to true. Example: 6.0.300."
+                },
+                {
+                    "key": "omnisharp.testRunSettings",
+                    "title": "Test Run Settings",
+                    "type": "path",
+                    "placeholder": "",
+                    "description": "Path to the `.runsettings` file which should be used when running unit tests."
+                },
+                {
+                    "key": "omnisharp.useEditorFormattingSettings",
+                    "title": "Use Editor Formatting Settings",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Specifes whether OmniSharp should use Nova's settings for C# code formatting (use of tabs, indentation size)."
+                },
+                {
+                    "key": "omnisharp.useModernNet",
+                    "title": "Use Modern Net",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Use OmniSharp build for .NET 6. This version _does not_ support non-SDK-style .NET Framework projects, including Unity. SDK-style Framework, NET Core, and NET 5+ projects should see significant performance improvements."
+                },
+                {
+                    "key": "omnisharp.waitForDebugger",
+                    "title": "",
+                    "type": "bool",
+                    "default": false,
+                    "description": "Pass the -debug flag when launching the OmniSharp server to allow a debugger to be attached."
+                },
+            ],
+        },
+        {
+            "title": "Unity",
+            "type": "section",
+            "children": [
+                {
+                    "key": "csharp.detectUnity",
+                    "title": "Auto Detect Unity project",
+                    "type": "bool",
+                    "default": true,
+                    "description": "If this is enabled, this will attempt to use the `omnisharp.useModernNet:false` and `omnisharp.useGlobalMono:always` so that it will load the Unity project and use the right version of Mono"
+                }
+            ],
+        },
+        {
+            "title": "Misc",
+            "type": "section",
+            "children": [
+                {
+                    "key": "csharp.language-server-path",
+                    "title": "Language Server Path",
+                    "type": "path",
+                    "placeholder": "/usr/local/bin/example",
+                    "description": "Location of the Omnisharp OSX package to use for this extension, if blank it defaults to the one included in this extension"
+                }
+            ],
+        },
+    ],
+
+    "commands": {
+        "extensions": [
+            {
+                "title": "Restart Omnisharp Server",
+                "command": "csharp.restart"
+            },
+            { "separator": true },
+        ]
+    }
 }

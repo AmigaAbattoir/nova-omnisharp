@@ -1,2 +1,11 @@
 .DS_Store
 Ignore/
+
+# For XCode project
+*.noindex
+TextIndex/
+SymbolCache/
+*.index-v1
+Logs/
+*.xcsettings
+xcuserdata/

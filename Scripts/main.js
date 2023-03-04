@@ -3,6 +3,11 @@ var langserver = null;
 exports.activate = function() {
     // Do work when the extension is activated
     langserver = new CSharpLanguageServer();
+
+    nova.commands.register("csharp.restart", (editor) => {
+        console.log("Called... Omnisharp Restart!");
+        langserver.start("");
+    });
 }
 
 exports.deactivate = function() {
@@ -116,14 +121,14 @@ class CSharpLanguageServer {
             if (nova.inDevMode()) {
                 console.log("[C#] Start() Trying...");
             }
-
             // Start the client
             client.start();
 
             client.onDidStop(function(error) {
                console.log("*** [C#] onDidStop() ERROR: " + error + " ***");
             });
-
+/*
+*/
             nova.subscriptions.add(client);
             this.languageClient = client;
 

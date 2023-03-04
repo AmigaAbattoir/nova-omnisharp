@@ -150,9 +150,12 @@ Default [RoslynExtensionOptions](https://github.com/OmniSharp/omnisharp-roslyn/b
 
 ## Unity
 
-To setup Unity to use Nova as the editor, go into the *Settings -> External Tools*
+To setup Unity to use Nova as the editor, you'll need to use the UnityNova executable to launch Nova with the right parameters.
+In order to take full use of Unity passing line and column, we need to monitor what is called and adjust it so that Nova will open it either at the right line and column, just the right line, or just open the file.
 
-**External Script Editor:** */Applications/Nova.app/Contents/SharedSupport/nova*
-**External Script Editor Args:** *open "$(File)" -l "$(Line)":"$(Column)"*
+Unity will send a line or column of zero, depending where it's called from. Nova isn't happy with that so the program will handle correcting it.  go in Unity and go into the *Settings -> External Tools*
 
-However, opening up scripts from the Project or from Hierarchy doesn't work, so your safer to do: *open "$(File)"* until a bash script or soemthing is made to handle how to launch it.
+**External Script Editor:** *Select UnityNova (need to add script to copy to /usr/local/bin...)*
+**External Script Editor Args:** *"$(File)" $(Line) $(Column)*
+
+It it important to use the double quotes around `$(File)` to ensure the path (if it contains spaces) will work,
