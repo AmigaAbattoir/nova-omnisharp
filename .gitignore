@@ -9,3 +9,7 @@ SymbolCache/
 Logs/
 *.xcsettings
 xcuserdata/
+
+# Syncthing
+.stfolder/
+.stignore
