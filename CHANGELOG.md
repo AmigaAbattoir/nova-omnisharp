@@ -1,3 +1,8 @@
+## Version 0.4
+
+ * Should handle most options
+ * With Nova 11.3, code completion is happening!
+
 ## Version 0.3
 
  * Hover overs seem to work!
@@ -7,8 +12,8 @@
 
 ## Version 0.2
 
-Should now have Symbols in Nova!
+ * Should now have Symbols in Nova!
 
 ## Version 0.1
 
-Initial mess kinda starting up!
+ * Initial mess kinda starting up!

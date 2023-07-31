@@ -1,27 +1,35 @@
-**Omnisharp - C Sharp** provides LSP stuff for C# project
+# OmniSharp for Nova
 
-It uses [Omnisharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) V1.39.6 [release](https://github.com/OmniSharp/omnisharp-roslyn/releases/)) to try an do this LSP magic.
+This extension provides language support for C# (and helpful options for using with Unity) using [OmniSharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) with the [V1.39.6 release](https://github.com/OmniSharp/omnisharp-roslyn/releases/) to try an do this LSP magic.
 
-I am primarily focused on using it for work and it's Unity projects, so for right now it's using some options that will only work for Unity project and some basic .NET project will probably not work.
+It provides for C#:
 
-Syntaxes were converted with [Nova Mate](https://github.com/gredman/novamate) from the grammar `csharp` in [Microsoft's VSCode C# Extension](https://github.com/microsoft/vscode/blob/main/extensions/csharp/syntaxes/csharp.tmLanguage.json) and I basically added some `<symbol>` to get the outlining features to work.`
+ * **Syntax highlighting**
+ * **Symbols**
+ * **Language intelligence** - Issues and completions _with Nova 11.3_
+
+I am primarily focused on using it for work with Unity projects, so for right now it's using some options that will only work for Unity project and some basic .NET project will probably not work.
+
+NOTE: One major issue is that it's not honoring all the OmniSharp options properly, but at least with Nova 11.3, there is code completion!
+
+Syntaxes were converted with [Nova Mate](https://github.com/gredman/novamate) from the grammar `csharp` in [Microsoft's VSCode C# Extension](https://github.com/microsoft/vscode/blob/main/extensions/csharp/syntaxes/csharp.tmLanguage.json) and I basically added some `<symbol>` to get the outlining features to work.
 
 ## Requirements
 
-You may need [Mono](https://www.mono-project.com/download/stable/) installed.
+You may need [Mono](https://www.mono-project.com/download/stable/) installed. _(I don't know, I haven't tried it without it installed)_.
 
 ## Usage
 
-C Sharp should runs any time you open a file with ".cs" files, or if there is a *.csproj file in the workspace.
+OmniSharp for Nova should runs any time you open a file with ".cs" files, or if there is a "*.csproj" file in the workspace.
 
 ## Configuration
 
-To configure global preferences, you'll have to wait. As of V0.3, you can only use the "omnisharp.useModernNet" (and a few others) to either set it for the extension or on a workspace setting.
+While configuration options are there, not all are "hooked up" or work as expected. Still working on that.
 
 ## Unity and "Unity Nova"
 
 To setup Unity to use Nova as your editor, you'll need to use the **UnityNova** executable to launch Nova with the right parameters.
-Unity will send a line or column of zero, depending where it's called from. Nova isn't happy with that so this program will handle correcting it.
+Unity will send a line or column of zero, depending where it's called from. Nova isn't happy with that so this program will handle passing parameters to Nova that it will know either to just open a file, go to a particular line, or to go to a line and column of a file.
 
 Once UnityNova is installed, go in Unity and go into the *Settings -> External Tools*
 
@@ -29,20 +37,21 @@ Change them as follows:
 
   * **External Script Editor:** *Select UnityNova*
 
-    * @TODO Test the extension trying to copy to /usr/local/bin
+    * _@TODO_ Test the extension trying to copy to /usr/local/bin
 
   * **External Script Editor Args:** *"$(File)" $(Line) $(Column)*
 
 *NOTE:* It is important to use the double quotes around `$(File)` to ensure that if the path contains spaces the command will work.
 
-#### Additional Notes:
+## Additional Notes for Unity:
+
 To make this work nicely for Unity projects, right now, we add in the following environmental variable:
 
 ```
 FrameworkPathOverride=/Library/Frameworks/Mono.framework/Versions/Current
 ```
 
-And add these options (again for Unity):
+And add these options when starting up the OmniSharp LSP for the project:
 
 ```
 omnisharp.useModernNet:false
