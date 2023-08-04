@@ -36,8 +36,8 @@ nova.commands.register("omnisharp.restart", (editor) => {
 });
 
 nova.commands.register("unitynova.install", (editor) => {
-	showNotification("UnityNova", "Attempting to copy UnityNova...")
-	nova.fs.copy( nova.path.join(nova.extension.path, "UnityNova/DerivedData/UnityNova/Build/Products/Debug/UnityNova"), "/usr/local/bin/UnityNova" );
+	showNotification("UnityNova", "Attempting to copy UnityNova... If that doesn't work, you will need to try this from terminal:\n\n" + "sudo cp \"" + nova.path.join(nova.extension.path, "UnityNova") + "\" /usr/local/bin/UnityNova\n");
+	nova.fs.copy( nova.path.join(nova.extension.path, "UnityNova"), "/usr/local/bin/UnityNova" );
 });
 
 /**
