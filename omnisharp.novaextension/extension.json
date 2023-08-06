@@ -3,7 +3,7 @@
     "name": "OmniSharp",
     "organization": "Abattoir Software",
     "description": "Uses OmniSharp Roslyn LSP for C# in Nova",
-    "version": "0.4",
+    "version": "0.4.1",
     "categories": [
         "completions",
         "languages",
