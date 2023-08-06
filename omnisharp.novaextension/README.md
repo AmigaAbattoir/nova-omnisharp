@@ -32,7 +32,11 @@ To setup Unity to use Nova as your editor, you'll need to use the **UnityNova** 
 Unity will send a line or column of zero, depending where it's called from.
 Nova isn't happy with that so this program will handle passing parameters to Nova that it will know either to just open a file, go to a particular line, or to go to a line and column of a file.
 
+<<<<<<< HEAD
 Still working on making the extension install it. Right now, it will show a notification with a command to copy and paste in Terminal. You could probably go through Finder and Show Package Content to get to the same location:
+=======
+Still working on making the extension install it, but for now, you could probably select
+>>>>>>> main
 
 `~/Library/Application Support/Nova/Extensions/Omnisharp.novaextension/UnityNova`
 
