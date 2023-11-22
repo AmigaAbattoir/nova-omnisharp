@@ -1,6 +1,6 @@
 # OmniSharp - C# for Nova
 
-This extension provides language support for C# (and helpful options for using with Unity) using [OmniSharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) with the [V1.39.8 release](https://github.com/OmniSharp/omnisharp-roslyn/releases/) to try an do this LSP magic.
+This extension provides language support for C# (and helpful options for using with Unity) using [OmniSharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) with the [V1.39.10 release](https://github.com/OmniSharp/omnisharp-roslyn/releases/) to try an do this LSP magic.
 
 It provides for C#:
 

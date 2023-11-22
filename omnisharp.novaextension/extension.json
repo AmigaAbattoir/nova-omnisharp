@@ -501,7 +501,7 @@
             {
                 "title": "Install UnityNova",
                 "command": "unitynova.install"
-            },
+            }
         ]
     }
 }
