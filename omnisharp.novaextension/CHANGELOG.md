@@ -1,3 +1,8 @@
+## Version 0.4.2
+
+ * Updated to V1.39.10 of OmniSharp-Roslyn
+ * Updated readme
+
 ## Version 0.4.1
 
  * Changed folder structure

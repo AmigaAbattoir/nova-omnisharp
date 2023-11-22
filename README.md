@@ -1,4 +1,4 @@
-# Omnisharp - C# for Nova's Panic Extension
+# Omnisharp - C# Extension for Nova's Panic
 
 Extension for C# in [Nova's Panic](https://nova.app/) using [OmniSharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) LSP.
 

@@ -1,9 +1,9 @@
 {
     "identifier": "com.abattoirsoftware.omnisharp",
-    "name": "OmniSharp",
+    "name": "OmniSharp - C#",
     "organization": "Abattoir Software",
     "description": "Uses OmniSharp Roslyn LSP for C# in Nova",
-    "version": "0.4.1",
+    "version": "0.4.3",
     "categories": [
         "completions",
         "languages",
@@ -80,7 +80,7 @@
                     "title": "Dotnet Path",
                     "type": "path",
                     "placeholder": "",
-                    "description": "Specified the path to a dotnet installation to use when \"useModernNet\" is set to true, instead of the default system one. This only influences the dotnet installation to use for hosting OmniSharp itself. Example: \"home/username/mycustomdotnetdirectory\".",
+                    "description": "Specified the path to a dotnet installation to use when \"useModernNet\" is set to true, instead of the default system one. This only influences the dotnet installation to use for hosting OmniSharp itself. Example: \"home/username/mycustomdotnetdirectory\"."
                 },
                 {
                     "key": "omnisharp.enableAsyncCompletion",
@@ -134,7 +134,7 @@
 						["information", "Information (Default)"],
 						["warning", "Warning"],
 						["error", "Error"],
-						["critical", "Critical"],
+						["critical", "Critical"]
 					],
 					"default": "information",
                     "description": "Specifies the level of logging output from the OmniSharp server."
@@ -236,8 +236,8 @@
                     "type": "bool",
                     "default": false,
                     "description": "Pass the -debug flag when launching the OmniSharp server to allow a debugger to be attached."
-                },
-            ],
+                }
+            ]
         },
         {
             "title": "Unity",
@@ -250,7 +250,7 @@
                     "default": true,
                     "description": "If this is enabled, this will attempt to use the `omnisharp.useModernNet:false` and `omnisharp.useGlobalMono:always` so that it will load the Unity project and use the right version of Mono"
                 }
-            ],
+            ]
         },
         {
             "title": "Misc",
@@ -263,8 +263,8 @@
                     "placeholder": "/usr/local/bin/example",
                     "description": "Location of the OmniSharp OSX package to use for this extension, if blank it defaults to the one included in this extension"
                 }
-            ],
-        },
+            ]
+        }
     ],
 
     "configWorkspace": [
@@ -318,7 +318,7 @@
                     "title": "Dotnet Path",
                     "type": "path",
                     "placeholder": "",
-                    "description": "Specified the path to a dotnet installation to use when \"useModernNet\" is set to true, instead of the default system one. This only influences the dotnet installation to use for hosting OmniSharp itself. Example: \"home/username/mycustomdotnetdirectory\".",
+                    "description": "Specified the path to a dotnet installation to use when \"useModernNet\" is set to true, instead of the default system one. This only influences the dotnet installation to use for hosting OmniSharp itself. Example: \"home/username/mycustomdotnetdirectory\"."
                 },
                 {
                     "key": "omnisharp.enableAsyncCompletion",
@@ -372,7 +372,7 @@
 						["information", "Information (Default)"],
 						["warning", "Warning"],
 						["error", "Error"],
-						["critical", "Critical"],
+						["critical", "Critical"]
 					],
 					"default": "information",
                     "description": "Specifies the level of logging output from the OmniSharp server."
@@ -473,8 +473,8 @@
                     "type": "bool",
                     "default": false,
                     "description": "Pass the -debug flag when launching the OmniSharp server to allow a debugger to be attached."
-                },
-            ],
+                }
+            ]
         },
         {
             "title": "Misc",
@@ -487,8 +487,8 @@
                     "placeholder": "/usr/local/bin/example",
                     "description": "Location of the OmniSharp OSX package to use, if blank it defaults to the one included in this extension"
                 }
-            ],
-        },
+            ]
+        }
     ],
 
     "commands": {

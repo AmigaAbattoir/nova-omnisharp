@@ -55,12 +55,12 @@ function consoleLogObject(object) { console.log(JSON.stringify(object)); }
  */
 function isWorkspace() {
 	if (nova.workspace.path == undefined || nova.workspace.path == null) {
-    	// Opening single file in a Nova editor does not define a workspace. A project must exist.
-    	// Opening a remote server environment is also not considered a workspace.
-    	return false
+		// Opening single file in a Nova editor does not define a workspace. A project must exist.
+		// Opening a remote server environment is also not considered a workspace.
+		return false
 	} else {
-    	// A local project is the only environment considered a Nova workspace.
-    	return true
+		// A local project is the only environment considered a Nova workspace.
+		return true
 	}
 }
 
@@ -97,12 +97,12 @@ function getWorkspaceOrGlobalConfig(configName) {
 			console.log(" --- Adding quotes around config! ---");
 		}
 */
-    }
+	}
 
-    if(nova.inDevMode()) {
-        console.log("*** getWorkspaceOrGlobalConfig() " + configName + " = [" + config + "]");
-    }
-    return config;
+	if(nova.inDevMode()) {
+		console.log("*** getWorkspaceOrGlobalConfig() " + configName + " = [" + config + "]");
+	}
+	return config;
 }
 
 /**
@@ -110,11 +110,11 @@ function getWorkspaceOrGlobalConfig(configName) {
  * @param {string} configName - Which config to get
  */
 function setIfConfigIsSet(configName) {
-    var check = getWorkspaceOrGlobalConfig(configName);
-    if(check!=null) {
-        return configName + ":" + check;
-    }
-    return null;
+	var check = getWorkspaceOrGlobalConfig(configName);
+	if(check!=null) {
+		return configName + ":" + check;
+	}
+	return null;
 }
 
 /**
@@ -122,34 +122,34 @@ function setIfConfigIsSet(configName) {
  * @type {Array}
  */
 var settingsToCheck = [
-    // "omnisharp.monoPath", // Handled before looping
-    "omnisharp.analyzeOpenDocumentsOnly",
-    "omnisharp.autoStart",
-    //"omnisharp.defaultLaunchSolution", // @TODO Needs to be used inplace of looking through the project folder
-    "omnisharp.disableMSBuildDiagnosticWarning",
-    "omnisharp.dotNetCliPaths",
-    "omnisharp.dotnetPath",
-    "omnisharp.enableAsyncCompletion",
-    "omnisharp.enableDecompilationSupport",
-    //"omnisharp.enableEditorConfigSupport", // @TODO Needs more work
-    "omnisharp.enableImportCompletion",
-    "omnisharp.enableMsBuildLoadProjectsOnDemand",
-    "omnisharp.enableRoslynAnalyzers",
-    "omnisharp.loggingLevel",
-    "omnisharp.maxFindSymbolsItems",
-    "omnisharp.maxProjectResults",
-    "omnisharp.minFindSymbolsFilterLength",
-    "omnisharp.organizeImportsOnFormat",
-    //"omnisharp.path", // Handled at startup
-    "omnisharp.projectFilesExcludePattern",
-    "omnisharp.projectLoadTimeout",
-    "omnisharp.sdkIncludePrereleases",
-    "omnisharp.sdkPath",
-    "omnisharp.sdkVersion",
-    //"omnisharp.testRunSettings", // @TODO Needs more work
-    //"omnisharp.useEditorFormattingSettings", // @TODO Needs more work
-    //"omnisharp.useModernNet",    // Handled with Unity Check
-    //"omnisharp.waitForDebugger", // Handled with startup
+	// "omnisharp.monoPath", // Handled before looping
+	"omnisharp.analyzeOpenDocumentsOnly",
+	"omnisharp.autoStart",
+	//"omnisharp.defaultLaunchSolution", // @TODO Needs to be used inplace of looking through the project folder
+	"omnisharp.disableMSBuildDiagnosticWarning",
+	"omnisharp.dotNetCliPaths",
+	"omnisharp.dotnetPath",
+	"omnisharp.enableAsyncCompletion",
+	"omnisharp.enableDecompilationSupport",
+	//"omnisharp.enableEditorConfigSupport", // @TODO Needs more work
+	"omnisharp.enableImportCompletion",
+	"omnisharp.enableMsBuildLoadProjectsOnDemand",
+	"omnisharp.enableRoslynAnalyzers",
+	"omnisharp.loggingLevel",
+	"omnisharp.maxFindSymbolsItems",
+	"omnisharp.maxProjectResults",
+	"omnisharp.minFindSymbolsFilterLength",
+	"omnisharp.organizeImportsOnFormat",
+	//"omnisharp.path", // Handled at startup
+	"omnisharp.projectFilesExcludePattern",
+	"omnisharp.projectLoadTimeout",
+	"omnisharp.sdkIncludePrereleases",
+	"omnisharp.sdkPath",
+	"omnisharp.sdkVersion",
+	//"omnisharp.testRunSettings", // @TODO Needs more work
+	//"omnisharp.useEditorFormattingSettings", // @TODO Needs more work
+	//"omnisharp.useModernNet",    // Handled with Unity Check
+	//"omnisharp.waitForDebugger", // Handled with startup
 ]
 
 /**
@@ -157,17 +157,17 @@ var settingsToCheck = [
  * @type {Array}
  */
 var settingsToCheckNotUsingUnityCheck = [
-    "omnisharp.useModernNet",
-    "omnisharp.useGlobalMono",
-    "omnisharp.useMono",
-    "omnisharp.monoPath"
+	"omnisharp.useModernNet",
+	"omnisharp.useGlobalMono",
+	"omnisharp.useMono",
+	"omnisharp.monoPath"
 ]
 
 /**
  * The main class for our LSP!
  */
 class OmniSharpLanguageServer {
-    languageClient = null;
+	languageClient = null;
 
 	constructor() {
 		// Observe the configuration setting for the server's location, and restart the server on change
@@ -176,24 +176,27 @@ class OmniSharpLanguageServer {
 			this.start(path);
 		}, this);
 		*/
-		this.start("");
+		this.start();
 	}
 
 	deactivate() { this.stop(); }
 
 	start(path) {
 		// Make sure that the LSP is stopped before trying to start again!
-		console.log("[OmniSharp]-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+		if(nova.inDevMode()) {
+			console.log("START PATH [[" + path + "]]");
+			console.log("[OmniSharp]-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+		}
+
 		if (this.languageClient) {
 			this.languageClient.stop();
 			nova.subscriptions.remove(this.languageClient);
 		}
 
-		console.log("[OmniSharp]-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 		var lspPath = getWorkspaceOrGlobalConfig("omnisharp.path");
 		// If the lspPath is empty or null, use the embedded OmniSharp!
 		if(lspPath==null || lspPath=="") {
-			lspPath = nova.path.join(nova.extension.path,"omnisharp-osx-1.39.6");
+			lspPath = nova.path.join(nova.extension.path,"omnisharp-osx");
 		}
 		// Use the run command
 		path = lspPath + "/run";
@@ -239,119 +242,129 @@ class OmniSharpLanguageServer {
 				}
 			});
 		}
-		findInDir(nova.workspace.path);
 
-		// If no solution is found, just use the project path
-		if(nova.inDevMode()) {
-			consoleLogObject(solutions);
-		}
-		if(solutions.length<1) {
-			solutions.push(nova.workspace.path);
-		}
+		if(isWorkspace()) {
+			findInDir(nova.workspace.path);
 
-		var env = {};
-		var args = new Array;
-		args.push("-s");
-		args.push(solutions[0]);
-        //args.push( "\"" + solutions[0] + "\"");
-/*
-		args.push("-v");
-		args.push("Verbose");
-		args.push("-debug");
-		args.push("--stdio");
-		args.push("-lsp");
-*/
-		var waitForDebugger = getWorkspaceOrGlobalConfig("omnisharp.waitForDebugger");
-		if(waitForDebugger) {
-			args.push("-debug");
-		}
+			// If no solution is found, just use the project path
+			if(nova.inDevMode()) {
+				consoleLogObject(solutions);
+			}
 
-		args.push("--languageserver");
-		//args.push("--hostPID");
-
-		// Unity detection
-		var isUnityProject = false;
-		if(getConfig("csharp.detectUnity")) {
-			if(nova.inDevMode()) { console.log("Use detectUnity! " + foundUnity); }
-			isUnityProject = foundUnity;
-		}
-
-		// If there is a Unity project, and the config for detectUnity is set, let's override some things
-		if(isUnityProject) {
-			// If we are in a real workspace (not developing)
-			if(isWorkspace()) {
-				// But make sure it's not the actual extension while we are developing!
-				if(nova.workspace.path!=nova.extension.path) {
-					nova.workspace.config.set("omnisharp.useModernNet",false);
+			if(solutions.length<1) {
+				if(isWorkspace()) {
+					solutions.push(nova.workspace.path);
+				} else {
+					solutions.push(editor.document.path);
 				}
 			}
-			args.push("omnisharp.useModernNet:false");
-			args.push("omnisharp.useGlobalMono:always");
-			args.push("omnisharp.useMono:true"); // ?? Needed?!
-			args.push("omnisharp.monoPath:/Library/Frameworks/Mono.framework/Versions/Current");
-			showNotification("OmniSharp for Nova","Unity project detected. This may take a long time before issues complete and code completion is available!");
-		} else {
+
+			var env = {};
+			var args = new Array;
+			args.push("-s");
+			args.push(solutions[0]);
+			//args.push( "\"" + solutions[0] + "\"");
+	/*
+			args.push("-v");
+			args.push("Verbose");
+			args.push("-debug");
+			args.push("--stdio");
+			args.push("-lsp");
+	*/
+			var waitForDebugger = getWorkspaceOrGlobalConfig("omnisharp.waitForDebugger");
+			if(waitForDebugger) {
+				args.push("-debug");
+			}
+
+			args.push("--languageserver");
+			//args.push("--hostPID");
+
+			// Unity detection
+			var isUnityProject = false;
+			if(getConfig("csharp.detectUnity")) {
+				if(nova.inDevMode()) { console.log("Use detectUnity! " + foundUnity); }
+				isUnityProject = foundUnity;
+			}
+
+			// If there is a Unity project, and the config for detectUnity is set, let's override some things
+			if(isUnityProject) {
+				// If we are in a real workspace (not developing)
+				if(isWorkspace()) {
+					// But make sure it's not the actual extension while we are developing!
+					if(nova.workspace.path!=nova.extension.path) {
+						nova.workspace.config.set("omnisharp.useModernNet",false);
+					}
+				}
+				args.push("omnisharp.useModernNet:false");
+				args.push("omnisharp.useGlobalMono:always");
+				args.push("omnisharp.useMono:true"); // ?? Needed?!
+				args.push("omnisharp.monoPath:/Library/Frameworks/Mono.framework/Versions/Current");
+				showNotification("OmniSharp for Nova","Unity project detected. This may take a long time before issues complete and code completion is available!");
+			} else {
+				var settingCheck;
+				// Loop through all the non-Unity settings and add them to the list
+				settingsToCheckNotUsingUnityCheck.forEach(function(setting) {
+					settingCheck = setIfConfigIsSet(setting);
+					if(settingCheck!=null) {
+						args.push(settingCheck);
+					}
+				});
+			}
+
+			// Can't remember why I added this...
+			//args.push("csharp.suppressHiddenDiagnostics: true");
+
 			var settingCheck;
-			// Loop through all the non-Unity settings and add them to the list
-			settingsToCheckNotUsingUnityCheck.forEach(function(setting) {
+			// Loop through all the other OmniSharp setting to push to args
+			settingsToCheck.forEach(function(setting) {
 				settingCheck = setIfConfigIsSet(setting);
 				if(settingCheck!=null) {
 					args.push(settingCheck);
 				}
 			});
-		}
 
-		// Can't remember why I added this...
-		//args.push("csharp.suppressHiddenDiagnostics: true");
-
-		var settingCheck;
-		// Loop through all the other OmniSharp setting to push to args
-		settingsToCheck.forEach(function(setting) {
-			settingCheck = setIfConfigIsSet(setting);
-			if(settingCheck!=null) {
-				args.push(settingCheck);
+			// @TODO Should take options and add them to the command line? Can we do a JSON file?
+			if(nova.inDevMode()) {
+				console.log("[OmniSharp] start()\n PATH:: \n" + path + "\n ::PATH");
+				var argsOut = "";
+				args.forEach(a => argsOut += a + " ");
+				console.log("[OmniSharp] start()\n ARGS:: \n" + argsOut + "\n ::ARGS");
 			}
-		});
 
-		// @TODO Should take options and add them to the command line? Can we do a JSON file?
-		if(nova.inDevMode()) {
-			console.log("[OmniSharp] start()\n PATH:: \n" + path + "\n ::PATH");
-			var argsOut = "";
-			args.forEach(a => argsOut += a + " ");
-			console.log("[OmniSharp] start()\n ARGS:: \n" + argsOut + "\n ::ARGS");
-		}
+			// Create the client
+			var serverOptions = {
+				path: path,
+				args: args,
+				env:  env,
+				type: "stdio",
+			};
+			var clientOptions = {
+				// The set of document syntaxes for which the server is valid
+				syntaxes: ['csharp'],
+				initializationOptions: {
+					"AutomaticWorkspaceInit": true,
+				},
+				//debug: true,
+			};
 
-		// Create the client
-		var serverOptions = {
-			path: path,
-			args: args,
-			env:  env,
-			type: "stdio",
-		};
-		var clientOptions = {
-			// The set of document syntaxes for which the server is valid
-			syntaxes: ['csharp'],
-			initializationOptions: {
-				"AutomaticWorkspaceInit": true,
-			},
-			//debug: true,
-		};
+			var client = new LanguageClient('CSharp', 'OmniSharp Language Server', serverOptions, clientOptions);
+			try {
+				if (nova.inDevMode()) { console.log("[OmniSharp] start() Trying..."); }
+				// Start the client
+				client.start();
+				client.onDidStop(function(error) { console.log("*** [OmniSharp] onDidStop() ERROR: " + error + " ***"); });
+				nova.subscriptions.add(client);
+				this.languageClient = client;
 
-		var client = new LanguageClient('CSharp', 'OmniSharp Language Server', serverOptions, clientOptions);
-		try {
-			if (nova.inDevMode()) { console.log("[OmniSharp] start() Trying..."); }
-			// Start the client
-			client.start();
-			client.onDidStop(function(error) { console.log("*** [OmniSharp] onDidStop() ERROR: " + error + " ***"); });
-			nova.subscriptions.add(client);
-			this.languageClient = client;
-
-			if (nova.inDevMode()) { console.log("[OmniSharp] start()  Completed at ",new Date()); }
-		} catch (err) {
-			// If the .start() method throws, it's likely because the path to the language server is invalid
-			if (nova.inDevMode()) {
-				console.error("[OmniSharp] start() Error caught:",err);
+				if (nova.inDevMode()) { console.log("[OmniSharp] start()  Completed at ",new Date()); }
+			} catch (err) {
+				// If the .start() method throws, it's likely because the path to the language server is invalid
+				if (nova.inDevMode()) {
+					console.error("[OmniSharp] start() Error caught:",err);
+				}
 			}
+		} else {
+			showNotification("OmniSharp", "In order to get the most out of this extension, please open a project in Nova that contains the *.sln or *.csproj file for this file");
 		}
 	}
 

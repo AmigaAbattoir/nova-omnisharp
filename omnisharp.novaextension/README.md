@@ -1,22 +1,39 @@
 # OmniSharp - C# for Nova
 
-This extension provides language support for C# (and helpful options for using with Unity) using [OmniSharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) with the [V1.39.6 release](https://github.com/OmniSharp/omnisharp-roslyn/releases/) to try an do this LSP magic.
+This extension provides language support for C# (and helpful options for using with Unity) using [OmniSharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) with the [V1.39.8 release](https://github.com/OmniSharp/omnisharp-roslyn/releases/) to try an do this LSP magic.
 
 It provides for C#:
 
  * **Syntax highlighting**
  * **Symbols**
- * **Language intelligence** - Issues and _as of Nova 11.3_ Completions
 
-I am primarily focused on using it for work with Unity projects, so for right now it's using some options that will only work for Unity project and some basic .NET project will probably not work.
+If you have a Nova project, which contains the *.sln or *.csproj file, this extension will also provide:
 
-NOTE: One major issue is that it's not honoring all the OmniSharp options properly, but at least with Nova 11.3, there is code completion!
+ * **Language intelligence**
+   * Issues
+   * Completions. (Requires Nova 11.3+. Nova 11.4, it formats it better)
+
+In order for the language intelligence part, you need that *.sln or *.csproj file. This is part of the design of Omnisharp.
+
+## Notes
+
+I am primarily focused on using it for work with Unity projects, so for right now it's using some options that will only work for Unity project and some basic .NET project may not work as expected.
 
 Syntaxes were converted with [Nova Mate](https://github.com/gredman/novamate) from the grammar `csharp` in [Microsoft's VSCode C# Extension](https://github.com/microsoft/vscode/blob/main/extensions/csharp/syntaxes/csharp.tmLanguage.json) and I basically added some `<symbol>` to get the outlining features to work.
 
+## Ominsharp release modification
+
+While you can change setting to use a different omnisharp release, for this extension I modify the `run` file of the package **omnisharp-osx** to help handle spacing in the name of the path. I add `:q` to the variables for `base_dir`,`omnisharp_dir` and to creating the `omnisharp_cmd`.
+
+## Known Issues
+
+* Does not honor all the OmniSharp options properly.
+
 ## Requirements
 
-You will need to have [Mono](https://www.mono-project.com/download/stable/) installed.
+1) You will need to have complete install of [Mono](https://www.mono-project.com/download/stable/) (including MSBuild) in order to provide the language services.
+
+2) You will need a version of [.NET SDK](https://dotnet.microsoft.com/en-us/download) installed.
 
 ## Usage
 
@@ -28,11 +45,13 @@ While configuration options are there, not all are "hooked up" or work as expect
 
 ## Unity and "Unity Nova"
 
+To use Nova and this extension with a Unity project, you **need** to add a project to Nova with either in the root of the Unity project's folder or the parent folder.
+
 To setup Unity to use Nova as your editor, you'll need to use the **UnityNova** executable to launch Nova with the right parameters.
 Unity will send a line or column of zero, depending where it's called from.
 Nova isn't happy with that so this program will handle passing parameters to Nova that it will know either to just open a file, go to a particular line, or to go to a line and column of a file.
 
-Still working on making the extension install it. Right now, it will show a notification with a command to copy and paste in Terminal.
+*NOTE:* Still working on making the extension install it. Right now, it will show a notification with a command to copy and paste in Terminal.
 You could probably go through Finder and Show Package Content to get to the same location:
 
 `~/Library/Application Support/Nova/Extensions/Omnisharp.novaextension/UnityNova`
