@@ -35,6 +35,10 @@ While you can change setting to use a different omnisharp release, for this exte
 
 2) You will need a version of [.NET SDK](https://dotnet.microsoft.com/en-us/download) installed.
 
+3) To use "Unity Nova" you will also need to make sure that the Nova Command Line Tool is installed.
+  * Go to **Nova** -> **Settings...** and click on the **Tools** item
+  * If **Command Line Tool** says "Install", click on it to install it.
+
 ## Usage
 
 OmniSharp for Nova should runs any time you open a file with ".cs" files, or if there is a "*.csproj" file in the workspace.

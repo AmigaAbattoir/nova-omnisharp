@@ -1,4 +1,9 @@
-## Version 0.4.2
+## Version 0.4.4
+
+ * Updated notes about using Unity Nova reuqires Nova Command Line Tool (thanks @brainandbrain)
+ * Updated to V1.39.11 of OmniSharp-Roslyn
+
+## Version 0.4.3
 
  * Updated to V1.39.10 of OmniSharp-Roslyn
  * Updated readme
