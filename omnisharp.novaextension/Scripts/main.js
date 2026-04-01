@@ -1,3 +1,6 @@
+
+const { showNotification, consoleLogObject, consoleErrorAndObject, isWorkspace, getWorkspaceOrGlobalConfig } = require("/nova-utils.js");
+
 var langserver = null;
 
 /**
@@ -17,7 +20,20 @@ function showNotification(title, body) {
 /**
  * Do work when the extension is activated
  */
-exports.activate = function() { langserver = new OmniSharpLanguageServer(); }
+exports.activate = function() {
+	langserver = new OmniSharpLanguageServer();
+
+	nova.commands.register("omnisharp.restart", (editor) => {
+		showNotification("OmniSharp", "Restarting language server...")
+		langserver.stop();
+		langserver = new OmniSharpLanguageServer();
+	});
+
+	nova.commands.register("unitynova.install", (editor) => {
+		showNotification("UnityNova", `Attempting to copy UnityNova... If that doesn't work, you will need to try this from terminal:\n\nsudo cp "${nova.path.join(nova.extension.path, "UnityNova")}" /usr/local/bin/UnityNova\n`);
+		nova.fs.copy( nova.path.join(nova.extension.path, "UnityNova"), "/usr/local/bin/UnityNova" );
+	});
+}
 
 /**
  * Clean up state before the extension is deactivated
@@ -27,82 +43,6 @@ exports.deactivate = function() {
 		langserver.deactivate();
 		langserver = null;
 	}
-}
-
-nova.commands.register("omnisharp.restart", (editor) => {
-	showNotification("OmniSharp", "Restarting language server...")
-	langserver.stop();
-	langserver = new OmniSharpLanguageServer();
-});
-
-nova.commands.register("unitynova.install", (editor) => {
-	showNotification("UnityNova", "Attempting to copy UnityNova... If that doesn't work, you will need to try this from terminal:\n\n" + "sudo cp \"" + nova.path.join(nova.extension.path, "UnityNova") + "\" /usr/local/bin/UnityNova\n");
-	nova.fs.copy( nova.path.join(nova.extension.path, "UnityNova"), "/usr/local/bin/UnityNova" );
-});
-
-/**
- * Stringifies an object so we can print it out in console
- * @param {object} object - The object that you want to log out
- */
-function consoleLogObject(object) { console.log(JSON.stringify(object)); }
-
-/**
- * Tell if the current file is being used in a workspace setting or as a independent editor window
- *
- * @see https://github.com/jasonplatts/nova-todo/blob/main/Scripts/functions.js
- * @returns {boolean}  - representing whether or not the current environment is a workspace or
- * Nova window without a workspace.
- */
-function isWorkspace() {
-	if (nova.workspace.path == undefined || nova.workspace.path == null) {
-		// Opening single file in a Nova editor does not define a workspace. A project must exist.
-		// Opening a remote server environment is also not considered a workspace.
-		return false
-	} else {
-		// A local project is the only environment considered a Nova workspace.
-		return true
-	}
-}
-
-/* ---- Config Functions ---- */
-/**
- * Returns the configuration value
- * @param {string} configName - Which config to get
- */
-function getConfig(configName) { return nova.config.get(configName); }
-
-/**
- * Gets either the global configuration, or the one for the project in that order
- * @param {string} configName - Which configuration to get
- */
-function getWorkspaceOrGlobalConfig(configName) {
-	var config = nova.config.get(configName);
-	if(nova.inDevMode()) {
-		console.log("*** getWorkspaceOrGlobalConfig() Config " + configName + " is [" + config + "]");
-	}
-	if(isWorkspace()) {
-		workspaceConfig = nova.workspace.config.get(configName)
-		if(nova.inDevMode()) {
-			console.log("*** getWorkspaceOrGlobalConfig() Workspace Config " + configName + " is [" + workspaceConfig + "]");
-		}
-		if(workspaceConfig) {
-			config = workspaceConfig;
-		}
-	}
-
-	if(config!=null) {
-/*
-		if(typeof config === "string" && config.indexOf(" ")!==-1) {
-			config = "\"" + config + "\"";
-			console.log(" --- Adding quotes around config! ---");
-		}
-*/
-	}
-
-	if(nova.inDevMode()) {
-		console.log("*** getWorkspaceOrGlobalConfig() " + configName + " = [" + config + "]");
-	}
-	return config;
 }
 
 /**
@@ -169,22 +109,14 @@ var settingsToCheckNotUsingUnityCheck = [
 class OmniSharpLanguageServer {
 	languageClient = null;
 
-	constructor() {
-		// Observe the configuration setting for the server's location, and restart the server on change
-		/*
-		nova.config.observe('example.language-server-path', function(path) {
-			this.start(path);
-		}, this);
-		*/
-		this.start();
-	}
+	constructor() { this.start(); }
 
-	deactivate() { this.stop(); }
+	deactivate()  { this.stop(); }
 
 	start(path) {
 		// Make sure that the LSP is stopped before trying to start again!
 		if(nova.inDevMode()) {
-			console.log("START PATH [[" + path + "]]");
+			console.log(`START PATH [[${path}]]`);
 			console.log("[OmniSharp]-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 		}
 
@@ -204,9 +136,9 @@ class OmniSharpLanguageServer {
 		var solutionPath = nova.workspace.path;
 
 		if(nova.inDevMode()) {
-			console.log("[OmniSharp] Start()    EXTENSION'S PATH: " + path );
-			console.log("[OmniSharp] Start()  OmniSharp Location: " + lspPath);
-			console.log("[OmniSharp] Start()   Solution Location: " + solutionPath);
+			console.log(`[OmniSharp] Start()    EXTENSION'S PATH: ${path}`);
+			console.log(`[OmniSharp] Start()  OmniSharp Location: ${lspPath}`);
+			console.log(`[OmniSharp] Start()   Solution Location: ${solutionPath}`);
 		}
 
 		var solutions = [];
@@ -295,10 +227,10 @@ class OmniSharpLanguageServer {
 						nova.workspace.config.set("omnisharp.useModernNet",false);
 					}
 				}
-				args.push("omnisharp.useModernNet:false");
-				args.push("omnisharp.useGlobalMono:always");
-				args.push("omnisharp.useMono:true"); // ?? Needed?!
-				args.push("omnisharp.monoPath:/Library/Frameworks/Mono.framework/Versions/Current");
+					args.push("omnisharp.useModernNet:false");
+					args.push("omnisharp.useGlobalMono:always");
+					args.push("omnisharp.useMono:true"); // ?? Needed?!
+					args.push("omnisharp.monoPath:/Library/Frameworks/Mono.framework/Versions/Current");
 				showNotification("OmniSharp for Nova","Unity project detected. This may take a long time before issues complete and code completion is available!");
 			} else {
 				var settingCheck;
@@ -325,10 +257,10 @@ class OmniSharpLanguageServer {
 
 			// @TODO Should take options and add them to the command line? Can we do a JSON file?
 			if(nova.inDevMode()) {
-				console.log("[OmniSharp] start()\n PATH:: \n" + path + "\n ::PATH");
+				console.log(`[OmniSharp] start()\n PATH:: \n${path}\n ::PATH"`);
 				var argsOut = "";
 				args.forEach(a => argsOut += a + " ");
-				console.log("[OmniSharp] start()\n ARGS:: \n" + argsOut + "\n ::ARGS");
+				console.log(`[OmniSharp] start()\n ARGS:: \n${argsOut}\n ::ARGS"`);
 			}
 
 			// Create the client
@@ -352,15 +284,15 @@ class OmniSharpLanguageServer {
 				if (nova.inDevMode()) { console.log("[OmniSharp] start() Trying..."); }
 				// Start the client
 				client.start();
-				client.onDidStop(function(error) { console.log("*** [OmniSharp] onDidStop() ERROR: " + error + " ***"); });
+				client.onDidStop(function(error) { consoleErrorAndObject("*** [OmniSharp] onDidStop() ERROR ***",error); });
 				nova.subscriptions.add(client);
 				this.languageClient = client;
 
-				if (nova.inDevMode()) { console.log("[OmniSharp] start()  Completed at ",new Date()); }
+				if (nova.inDevMode()) { console.log(`[OmniSharp] start()  Completed at ${new Date()}`); }
 			} catch (err) {
 				// If the .start() method throws, it's likely because the path to the language server is invalid
 				if (nova.inDevMode()) {
-					console.error("[OmniSharp] start() Error caught:",err);
+					consoleErrorAndObject("[OmniSharp] start() *** ERROR: Caught ***",err);
 				}
 			}
 		} else {

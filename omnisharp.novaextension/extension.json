@@ -3,7 +3,7 @@
     "name": "OmniSharp - C#",
     "organization": "Abattoir Software",
     "description": "Uses OmniSharp Roslyn LSP for C# in Nova",
-    "version": "0.4.4",
+    "version": "0.5.0",
     "categories": [
         "completions",
         "languages",
@@ -17,11 +17,10 @@
 
     "main": "main.js",
 
-    "homepage": "https://github.com/AmigaAbattoir/CSharp.novaextension",
-    "repository": "https://github.com/AmigaAbattoir/CSharp.novaextension",
-    "bugs": {
-        "url": "https://github.com/AmigaAbattoir/CSharp.novaextension/issues"
-    },
+    "homepage": "https://gitlab.com/AmigaAbattoir/nova-omnisharp",
+    "repository": "https://gitlab.com/AmigaAbattoir/nova-omnisharp",
+    "bugs": "https://gitlab.com/AmigaAbattoir/nova-omnisharp/-/issues/new",
+	"funding": "https://ko-fi.com/christopherpollati",
 
     "entitlements": {
         "requests": true,

@@ -1,25 +1,29 @@
 # OmniSharp - C# for Nova
 
-This extension provides language support for C# (and helpful options for using with Unity) using [OmniSharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) with the [V1.39.10 release](https://github.com/OmniSharp/omnisharp-roslyn/releases/) to try an do this LSP magic.
+This extension provides language support for C# (and helpful options for using with Unity) using [OmniSharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) with the [V1.39.14 release](https://github.com/OmniSharp/omnisharp-roslyn/releases/) to try an do this LSP magic.
 
 It provides for C#:
 
  * **Syntax highlighting**
  * **Symbols**
 
-If you have a Nova project, which contains the *.sln or *.csproj file, this extension will also provide:
+If you have a Nova project, which contains the `*.sln` or `*.csproj` file, this extension will also provide:
 
  * **Language intelligence**
    * Issues
-   * Completions. (Requires Nova 11.3+. Nova 11.4, it formats it better)
+   * Completions. (Requires Nova 11.3+. Nova 11.4+ formats it better)
 
-In order for the language intelligence part, you need that *.sln or *.csproj file. This is part of the design of Omnisharp.
+In order for the language intelligence part, you need that `*.sln` or `*.csproj` file. This is part of the design of Omnisharp.
+
+It is highly recommended to use the Unity package below, especially with Unity 202x version since it will allow you to generate proper `*.csproj`.
 
 ## Notes
 
-I am primarily focused on using it for work with Unity projects, so for right now it's using some options that will only work for Unity project and some basic .NET project may not work as expected.
+I am primarily focused on using it for work with Unity projects, so for right now it's using some options that will only work for Unity project and some basic .NET project may not work as expected. It also seems after Unity 2019, the Visual Studio Code updates changed the `.csproj` and they don't really work well.
 
 Syntaxes were converted with [Nova Mate](https://github.com/gredman/novamate) from the grammar `csharp` in [Microsoft's VSCode C# Extension](https://github.com/microsoft/vscode/blob/main/extensions/csharp/syntaxes/csharp.tmLanguage.json) and I basically added some `<symbol>` to get the outlining features to work.
+
+Larger Unity projects, with a lot of packages or assets, may take a long time (several minutes) for Omnisharp to process before code completion starts to work. Please be patient!
 
 ## Ominsharp release modification
 
@@ -31,13 +35,16 @@ While you can change setting to use a different omnisharp release, for this exte
 
 ## Requirements
 
-1) You will need to have complete install of [Mono](https://www.mono-project.com/download/stable/) (including MSBuild) in order to provide the language services.
+- The complete install of **[Mono](https://www.mono-project.com/download/stable/) (including MSBuild)** in order to provide the language services.
 
-2) You will need a version of [.NET SDK](https://dotnet.microsoft.com/en-us/download) installed.
+- A version of **[.NET SDK](https://dotnet.microsoft.com/en-us/download)**
 
-3) To use "Unity Nova" you will also need to make sure that the Nova Command Line Tool is installed.
-  * Go to **Nova** -> **Settings...** and click on the **Tools** item
-  * If **Command Line Tool** says "Install", click on it to install it.
+- **Nova Command Line Tools**
+
+   - Go to **Nova** -> **Settings...** and click on the **Tools** item
+   - If **Command Line Tool** says "Install", click on it to install it.
+
+- **A Unity/Nova connection** - See below about **[com.unity.ide.nova](https://gitlab.com/AmigaAbattoir/com.unity.ide.nova) Unity Package** or **"Unity Nova"**
 
 ## Usage
 
@@ -47,9 +54,31 @@ OmniSharp for Nova should runs any time you open a file with ".cs" files, or if 
 
 While configuration options are there, not all are "hooked up" or work as expected. Still working on that.
 
-## Unity and "Unity Nova"
+## Unity/Nova Connections
 
-To use Nova and this extension with a Unity project, you **need** to add a project to Nova with either in the root of the Unity project's folder or the parent folder.
+One of these will be required to get Unity to open file properly. Both can be installed, but for Unity 2020+, using the Package is recommended:
+
+### com.unity.ide.nova Package
+
+This is recommended for Unity 2020+. Add in this package to Unity will be able to open files in Unity. And also regenerate `*.sln` and `*.csproj` so that you will start to get code completion.
+
+- In your Unity project go to *Windows -> Package Manager*
+
+- Then click the "+" and select *Add package from git URL*
+
+![](assets/package-manager.png)
+
+- Enter the git URL: `https://gitlab.com/AmigaAbattoir/com.unity.ide.nova.git`
+
+- Then go into *Unity -> Settings* and select the *External Tools* option
+
+![](assets/external-tools.png)
+
+This should detect Nova, as long as the Nova Command Line Tools are installed! If you forgot, click the *Recheck Nova Installation*. It is recommended to *Regenerate project files*, especially if you (or someone on your team) were using VSCode.
+
+### "Unity Nova"
+
+This is recommended for Unity 2019 and below. To use Nova and this extension with a Unity project, you **need** to add a project to Nova with either in the root of the Unity project's folder or the parent folder.
 
 To setup Unity to use Nova as your editor, you'll need to use the **UnityNova** executable to launch Nova with the right parameters.
 Unity will send a line or column of zero, depending where it's called from.
