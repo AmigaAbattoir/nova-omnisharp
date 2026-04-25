@@ -1,3 +1,9 @@
+🚨 **This repository has moved**
+
+Active development is now on GitLab: https://gitlab.com/AmigaAbattoir/nova-omnisharp
+
+This repo is archived and no longer maintained.
+
 # Omnisharp - C# Extension for Nova's Panic
 
 Extension for C# in [Nova's Panic](https://nova.app/) using [OmniSharp Roslyn](https://github.com/OmniSharp/omnisharp-roslyn) LSP.
